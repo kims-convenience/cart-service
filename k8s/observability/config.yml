@@ -1,0 +1,26 @@
+# Promtail Config (Not using the Promtail pull model)
+
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+# Keeps track of the last position it read from each log file. This prevents re-reading the same logs
+# Located at /tmp/positions.yaml inside the Promtail container.
+# positions:
+#  "/var/log/app_logs/app.log":
+#    offset: 1024
+#  "/var/log/app_logs/error.log":
+#    offset: 2048
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: "spring-boot-logs"
+    static_configs:
+      - targets: ["192.168.65.4"] # If your Promtail container is running inside Docker Desktop, use the Docker Desktop Node IP for scraping K8s logs.
+        labels:
+          job: "spring-boot"
+          __path__: /var/log/app_logs/*.json  # Mapped volume path to /logs/application.json
