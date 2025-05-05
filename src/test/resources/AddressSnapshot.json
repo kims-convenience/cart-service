@@ -1,0 +1,12 @@
+{
+  "name": "Walter White",
+  "phoneNumber": "+1-505-555-0198",
+  "addressLine1": "House No. 308",
+  "addressLine2": "Negra Arroyo Lane",
+  "city": "Albuquerque",
+  "state": "New Mexico",
+  "postalCode": "87104",
+  "country": "USA",
+  "addressType": "HOME",
+  "defaultAddress": true
+}

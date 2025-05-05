@@ -6,7 +6,7 @@
     <!-- Define Console Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%X{X-Correlation-ID}] [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -21,7 +21,7 @@
     <!-- Define JSON File Appender -->
     <appender name="JSON_FILE" class="ch.qos.logback.core.FileAppender">
         <file>logs/application.json</file>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
     </appender>
 
     <!-- Push model - Application posts logs to Loki -->
@@ -44,14 +44,7 @@
                 <readMarkers>true</readMarkers>
             </label>
             <message>
-                <pattern>
-                    {
-                    "level":"%level",
-                    "class":"%logger{36}",
-                    "thread":"%thread",
-                    "message": "%message",
-                    "requestId": "%X{X-Request-ID}"
-                    }
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%X{X-Correlation-ID}] [%thread] %-5level %logger{36} - %msg%n
                 </pattern>
             </message>
         </format>
@@ -59,8 +52,8 @@
 
     <!-- Root Logger Configuration -->
     <root level="info">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="JSON_FILE" />
-        <appender-ref ref="LOKI" />
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="JSON_FILE"/>
+        <appender-ref ref="LOKI"/>
     </root>
 </configuration>

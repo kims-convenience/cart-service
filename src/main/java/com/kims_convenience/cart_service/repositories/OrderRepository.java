@@ -1,9 +1,9 @@
 package com.kims_convenience.cart_service.repositories;
 
-import com.kims_convenience.cart_service.entities.Cart;
+import com.kims_convenience.cart_service.entities.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface CartRepository extends JpaRepository<Cart, String> {
+public interface OrderRepository extends JpaRepository<Order, String> {
 }

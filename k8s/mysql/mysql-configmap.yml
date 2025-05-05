@@ -4,6 +4,6 @@ metadata:
   name: mysql-config-map
 data:
   mysql-server: mysql-cart
-  mysql-database-name: cart-db
+  mysql-database-name: cart_db
   mysql-user-username: dummy
   loki-push-url: http://host.docker.internal

@@ -1,0 +1,10 @@
+{
+  "paymentMethodType": "CREDIT_CARD",
+  "provider": "Mastercard",
+  "maskedCardNumber": "**** **** **** 1985",
+  "cardHolderName": "Walter White",
+  "expiryMonth": "12",
+  "expiryYear": "2026",
+  "lastUsedOn": "2025-05-05T15:22:10",
+  "instrumentToken": "tok_mastercard_ww_0525"
+}

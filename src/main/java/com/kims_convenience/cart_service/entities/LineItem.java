@@ -16,6 +16,9 @@ public class LineItem {
     @Column(name = "product_id")
     private String productId;
 
+    @Column(name = "product_name")
+    private String productName;
+
     @Column(name = "sku_id")
     private String skuId;
 

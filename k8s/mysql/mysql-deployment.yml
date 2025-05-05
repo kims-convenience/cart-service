@@ -16,6 +16,7 @@ spec:
     type: Recreate
   template:
     metadata:
+      name: mysql-pod
       labels:
         app: kims-convenience
         tier: database
