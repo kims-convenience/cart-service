@@ -1,11 +1,11 @@
-package com.kims_convenience.cart_service.dto.oms;
+package com.kims_convenience.cart_service.dto.order_event;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Address {
+public class AddressDto {
 
     private String id;
     private String name;

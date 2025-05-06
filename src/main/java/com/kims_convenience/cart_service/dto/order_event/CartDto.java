@@ -1,4 +1,4 @@
-package com.kims_convenience.cart_service.dto.oms;
+package com.kims_convenience.cart_service.dto.order_event;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,16 +7,16 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Cart {
+public class CartDto {
 
     private String cartId;
-    private List<LineItem> lineItems;
+    private List<LineItemDto> lineItems;
 
     public String toLogString() {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("Cart[cartId=%s, lineItems=[", cartId));
         if (lineItems != null) {
-            for (LineItem item : lineItems) {
+            for (LineItemDto item : lineItems) {
                 sb.append(item.toLogString()).append(", ");
             }
         }

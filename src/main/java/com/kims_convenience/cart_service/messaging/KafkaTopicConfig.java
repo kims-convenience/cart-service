@@ -24,12 +24,7 @@ public class KafkaTopicConfig {
     }
 
     @Bean
-    public NewTopic createOrderTopic() {
-        return new NewTopic("order.created", 1, (short) 1);
-    }
-
-    @Bean
-    public NewTopic topicOrderPlaced() {
-        return new NewTopic("order.placed", 1, (short) 1);
+    public NewTopic topicOrderSubmitted() {
+        return new NewTopic("order.submitted", 1, (short) 1);
     }
 }

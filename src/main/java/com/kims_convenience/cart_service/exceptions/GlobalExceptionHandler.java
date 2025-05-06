@@ -33,6 +33,20 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse("ORDER_NOT_FOUND", ex.getMessage()));
     }
 
+    @ExceptionHandler(AddressNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleOrderAddressMissing(AddressNotFoundException ex) {
+        logger.warn("[handleOrderAddressMissing] Exception : {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("ADDRESS_MISSING", ex.getMessage()));
+    }
+
+    @ExceptionHandler(PaymentInstrumentNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleOrderPaymentInstrumentMissing(PaymentInstrumentNotFoundException ex) {
+        logger.warn("[handleOrderPaymentInstrumentMissing] Exception : {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("PAYMENT_INSTRUMENT_MISSING", ex.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex) {
         logger.warn("[handleGeneral] Exception : {}", ex.getMessage());

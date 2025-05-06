@@ -82,7 +82,7 @@ $ kubectl exec -it <pod_name> -- /bin/bash
 
 [# ./kafka-console-consumer.sh \
 --bootstrap-server localhost:9092 \
---topic order.placed \
+--topic order.submitted \
 --from-beginning
 
 ### Deploy Loki-Grafana

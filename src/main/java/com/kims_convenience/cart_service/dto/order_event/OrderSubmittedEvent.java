@@ -1,4 +1,4 @@
-package com.kims_convenience.cart_service.dto.oms;
+package com.kims_convenience.cart_service.dto.order_event;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,11 +11,11 @@ import java.time.ZonedDateTime;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OrderPlacedEvent {
+public class OrderSubmittedEvent {
 
-    private final String eventType = "order.placed";
+    private final String eventType = "order.submitted";
     private ZonedDateTime eventTime;
-    private Order order;
+    private OrderDto order;
 
     public String toLogString() {
         return String.format("Event Type: %s, Event Time: %s, Order : %s",

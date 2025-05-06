@@ -1,4 +1,4 @@
-package com.kims_convenience.cart_service.dto.oms;
+package com.kims_convenience.cart_service.dto.order_event;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,17 +7,17 @@ import java.time.ZonedDateTime;
 
 @Getter
 @Setter
-public class Order {
+public class OrderDto {
 
     private String orderId;
     private String customerId;
-    private Cart cart;
-    private Address address;
-    private PaymentInstrument paymentInstrument;
+    private CartDto cart;
+    private AddressDto address;
+    private PaymentInstrumentDto paymentInstrument;
     private ZonedDateTime orderPlacedAt;
 
     public String toLogString() {
-        return String.format("Order[orderId=%s, customerId=%s, orderPlacedAt=%s, cart=%s, address=%s, paymentInstrument=%s]",
+        return String.format("OrderDto[orderId=%s, customerId=%s, orderPlacedAt=%s, cart=%s, address=%s, paymentInstrument=%s]",
                 orderId,
                 customerId,
                 orderPlacedAt != null ? orderPlacedAt.toString() : "N/A",

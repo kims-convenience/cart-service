@@ -1,5 +1,6 @@
 package com.kims_convenience.cart_service.mappers;
 
+import com.kims_convenience.cart_service.dto.order_event.*;
 import com.kims_convenience.cart_service.entities.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,11 +14,11 @@ public interface OrderMapper {
     @Mapping(source = "address", target = "address")
     @Mapping(source = "paymentInstrument", target = "paymentInstrument")
     @Mapping(source = "updatedAt", target = "orderPlacedAt")
-    com.kims_convenience.cart_service.dto.oms.Order toOmsOrder(Order order);
+    OrderDto toOmsOrder(Order order);
 
     @Mapping(source = "id", target = "cartId")
     @Mapping(source = "lineItems", target = "lineItems")
-    com.kims_convenience.cart_service.dto.oms.Cart toOmsCart(Cart cart);
+    CartDto toOmsCart(Cart cart);
 
     @Mapping(source = "id", target = "lineItemId")
     @Mapping(source = "productId", target = "productId")
@@ -25,7 +26,7 @@ public interface OrderMapper {
     @Mapping(source = "skuId", target = "skuId")
     @Mapping(source = "quantity", target = "quantity")
     @Mapping(source = "price", target = "price")
-    com.kims_convenience.cart_service.dto.oms.LineItem toOmsLineItem(LineItem lineItem);
+    LineItemDto toOmsLineItem(LineItem lineItem);
 
     @Mapping(source = "name", target = "name")
     @Mapping(source = "phoneNumber", target = "phoneNumber")
@@ -37,7 +38,7 @@ public interface OrderMapper {
     @Mapping(source = "country", target = "country")
     @Mapping(source = "addressType", target = "addressType")
     @Mapping(source = "defaultAddress", target = "defaultAddress")
-    com.kims_convenience.cart_service.dto.oms.Address toOmsCart(Address address);
+    AddressDto toOmsCart(Address address);
 
     @Mapping(source = "paymentMethodType", target = "paymentMethodType")
     @Mapping(source = "provider", target = "provider")
@@ -47,5 +48,5 @@ public interface OrderMapper {
     @Mapping(source = "expiryYear", target = "expiryYear")
     @Mapping(source = "instrumentToken", target = "instrumentToken")
     @Mapping(source = "lastUsedOn", target = "lastUsedOn")
-    com.kims_convenience.cart_service.dto.oms.PaymentInstrument toOmsCart(PaymentInstrument paymentInstrument);
+    PaymentInstrumentDto toOmsCart(PaymentInstrument paymentInstrument);
 }

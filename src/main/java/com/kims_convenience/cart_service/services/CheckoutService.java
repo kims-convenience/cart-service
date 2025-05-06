@@ -37,11 +37,11 @@ public class CheckoutService {
         logger.info("[createOrder] Request={}", request.toLogString());
 
         Cart cart = cartRepository.findById(request.getCartId()).orElseThrow(() -> new CartNotFoundException(request.getCartId()));
-
+        
         Order order = new Order();
         order.setId(UUID.randomUUID().toString());
         order.setCustomerId(cart.getCustomerId());
-        order.setOrderStatus(OrderStatus.IN_PROGRESS);
+        order.setOrderStatus(OrderStatus.DRAFT);
         order.setCart(cart);
         order.setUpdatedAt(ZonedDateTime.now());
         return OrderUtility.toDto(orderRepository.save(order));

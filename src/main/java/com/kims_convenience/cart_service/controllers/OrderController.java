@@ -21,11 +21,6 @@ public class OrderController {
     @PostMapping("/{orderId}/place-order")
     public void placeOrder(@PathVariable String orderId) {
         logger.info("[placeOrder] OrderId={}", orderId);
-
-        try {
-            orderEventPublisher.placeOrder(orderId);
-        } catch (Exception e) {
-            logger.error("[placeOrder] Exception={}", e.getMessage());
-        }
+        orderEventPublisher.submitOrder(orderId);
     }
 }

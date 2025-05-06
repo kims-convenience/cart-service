@@ -1,11 +1,11 @@
-package com.kims_convenience.cart_service.dto.oms;
+package com.kims_convenience.cart_service.dto.order_event;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class PaymentInstrument {
+public class PaymentInstrumentDto {
 
     private String id;
     private String paymentMethodType;
