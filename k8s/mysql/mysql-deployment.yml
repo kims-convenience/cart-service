@@ -61,6 +61,7 @@ spec:
             claimName: mysql-pvc
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -77,7 +78,9 @@ spec:
     tier: database
     type: mysql
   clusterIP: None
+
 ---
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
