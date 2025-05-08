@@ -24,6 +24,7 @@ public class OrderUtility {
     public static AddressDto toDto(Address address) {
         AddressDto dto = new AddressDto();
         dto.setId(address.getId());
+        dto.setAddressId(address.getAddressId());
         dto.setName(address.getName());
         dto.setPhoneNumber(address.getPhoneNumber());
         dto.setAddressLine1(address.getAddressLine1());
@@ -40,6 +41,7 @@ public class OrderUtility {
     public static PaymentInstrumentDto toDto(PaymentInstrument paymentInstrument) {
         PaymentInstrumentDto dto = new PaymentInstrumentDto();
         dto.setId(paymentInstrument.getId());
+        dto.setPaymentInstrumentId(paymentInstrument.getPaymentInstrumentId());
         dto.setPaymentMethodType(paymentInstrument.getPaymentMethodType());
         dto.setProvider(paymentInstrument.getProvider());
         dto.setMaskedCardNumber(paymentInstrument.getMaskedCardNumber());

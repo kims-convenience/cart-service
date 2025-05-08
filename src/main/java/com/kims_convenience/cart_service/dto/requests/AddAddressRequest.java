@@ -7,6 +7,12 @@ import lombok.Getter;
 public class AddAddressRequest implements WebRequest {
 
     @NotBlank
+    private String orderId;
+
+    @NotBlank
+    private String addressId;
+
+    @NotBlank
     private String name;
 
     @NotBlank
@@ -38,6 +44,8 @@ public class AddAddressRequest implements WebRequest {
     @Override
     public String toLogString() {
         return String.format("AddAddressRequest[" +
+                        "orderId=%s, " +
+                        "addressId=%s, " +
                         "name=%s, " +
                         "phoneNumber=%s, " +
                         "addressLine1=%s, " +
@@ -48,6 +56,8 @@ public class AddAddressRequest implements WebRequest {
                         "country=%s, " +
                         "addressType=%s, " +
                         "defaultAddress=%s, ]",
+                orderId,
+                addressId,
                 name,
                 phoneNumber,
                 addressLine1,

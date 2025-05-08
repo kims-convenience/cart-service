@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class AddressDto {
 
-    private String id;
+    private String addressId;
     private String name;
     private String phoneNumber;
     private String addressLine1;
@@ -20,7 +20,7 @@ public class AddressDto {
     private boolean defaultAddress;
 
     public String toLogString() {
-        return String.format("Address[id=%s, name=%s, phone=%s, line1=%s, line2=%s, city=%s, state=%s, postalCode=%s, country=%s, type=%s, defaultAddress=%s]",
-                id, name, phoneNumber, addressLine1, addressLine2, city, state, postalCode, country, addressType, defaultAddress);
+        return String.format("Address[addressId=%s, name=%s, phone=%s, addressLine1=%s, addressLine2=%s, city=%s, state=%s, postalCode=%s, country=%s, type=%s, defaultAddress=%s]",
+                addressId, name, phoneNumber, addressLine1, addressLine2, city, state, postalCode, country, addressType, defaultAddress);
     }
 }

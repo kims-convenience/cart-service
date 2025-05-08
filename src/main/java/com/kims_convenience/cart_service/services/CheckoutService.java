@@ -37,7 +37,7 @@ public class CheckoutService {
         logger.info("[createOrder] Request={}", request.toLogString());
 
         Cart cart = cartRepository.findById(request.getCartId()).orElseThrow(() -> new CartNotFoundException(request.getCartId()));
-        
+
         Order order = new Order();
         order.setId(UUID.randomUUID().toString());
         order.setCustomerId(cart.getCustomerId());
@@ -51,7 +51,7 @@ public class CheckoutService {
         logger.info("[addPaymentInstrument] OrderId={}, Request={}", orderId, request.toLogString());
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
-        order.setPaymentInstrument(getPaymentInstrumentSnapshot(request));
+        order.setPaymentInstrument(getPaymentInstrumentSnapshot(request, order));
         order.setUpdatedAt(ZonedDateTime.now());
         return OrderUtility.toDto(orderRepository.save(order));
     }
@@ -60,14 +60,15 @@ public class CheckoutService {
         logger.info("[addAddress] OrderId={}, Request={}", orderId, request.toLogString());
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
-        order.setAddress(getAddress(request));
+        order.setAddress(getAddress(request, order));
         order.setUpdatedAt(ZonedDateTime.now());
         return OrderUtility.toDto(orderRepository.save(order));
     }
 
-    private PaymentInstrument getPaymentInstrumentSnapshot(AddPaymentInstrumentRequest request) {
+    private PaymentInstrument getPaymentInstrumentSnapshot(AddPaymentInstrumentRequest request, Order order) {
         PaymentInstrument paymentInstrument = new PaymentInstrument();
-        paymentInstrument.setId(UUID.randomUUID().toString());
+        paymentInstrument.setOrder(order);
+        paymentInstrument.setPaymentInstrumentId(request.getPaymentInstrumentId());
         paymentInstrument.setPaymentMethodType(request.getPaymentMethodType());
         paymentInstrument.setProvider(request.getProvider());
         paymentInstrument.setMaskedCardNumber(request.getMaskedCardNumber());
@@ -79,9 +80,10 @@ public class CheckoutService {
         return paymentInstrument;
     }
 
-    private Address getAddress(AddAddressRequest request) {
+    private Address getAddress(AddAddressRequest request, Order order) {
         Address address = new Address();
-        address.setId(UUID.randomUUID().toString());
+        address.setOrder(order);
+        address.setAddressId(request.getAddressId());
         address.setName(request.getName());
         address.setPhoneNumber(request.getPhoneNumber());
         address.setAddressLine1(request.getAddressLine1());

@@ -7,7 +7,8 @@ import lombok.Setter;
 @Setter
 public class PaymentInstrumentDto {
 
-    private String id;
+    private Long id;
+    private String paymentInstrumentId;
     private String paymentMethodType;
     private String provider;
     private String maskedCardNumber;

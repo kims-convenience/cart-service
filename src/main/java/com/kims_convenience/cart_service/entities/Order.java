@@ -24,12 +24,14 @@ public class Order {
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "payment_instrument_id", nullable = true)
+    //    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
+//    @JoinColumn(name = "payment_instrument_id", nullable = true)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private PaymentInstrument paymentInstrument;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "address_id", nullable = true)
+    //@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    // @JoinColumn(name = "address_id", nullable = true)
     private Address address;
 
     @Column(name = "updated_at")

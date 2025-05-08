@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class PaymentInstrumentDto {
 
-    private String id;
+    private String paymentInstrumentId;
     private String paymentMethodType;
     private String provider;
     private String maskedCardNumber;
@@ -18,8 +18,8 @@ public class PaymentInstrumentDto {
     private String instrumentToken;
 
     public String toLogString() {
-        return String.format("PaymentInstrument[id=%s, type=%s, provider=%s, maskedCard=%s, holder=%s, expiry=%s/%s, lastUsedOn=%s, token=%s]",
-                id,
+        return String.format("PaymentInstrument[paymentInstrumentId=%s, type=%s, provider=%s, maskedCard=%s, holder=%s, expiry=%s/%s, lastUsedOn=%s, token=%s]",
+                paymentInstrumentId,
                 paymentMethodType,
                 provider,
                 maskedCardNumber,

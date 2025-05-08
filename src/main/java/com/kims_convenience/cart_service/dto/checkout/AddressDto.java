@@ -7,7 +7,8 @@ import lombok.Setter;
 @Setter
 public class AddressDto {
 
-    private String id;
+    private Long id;
+    private String addressId;
     private String name;
     private String phoneNumber;
     private String addressLine1;

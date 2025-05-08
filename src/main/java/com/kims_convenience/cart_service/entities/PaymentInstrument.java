@@ -1,8 +1,6 @@
 package com.kims_convenience.cart_service.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +8,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PaymentInstrument {
+
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "payment_instrument_id")
+    private String paymentInstrumentId;
 
     @Column(name = "payment_method_type", nullable = false)
     private String paymentMethodType;
@@ -36,4 +39,8 @@ public class PaymentInstrument {
 
     @Column(name = "instrument_token")
     private String instrumentToken;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 }

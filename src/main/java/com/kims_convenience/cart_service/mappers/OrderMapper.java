@@ -28,6 +28,7 @@ public interface OrderMapper {
     @Mapping(source = "price", target = "price")
     LineItemDto toOmsLineItem(LineItem lineItem);
 
+    @Mapping(source = "addressId", target = "addressId")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "phoneNumber", target = "phoneNumber")
     @Mapping(source = "addressLine1", target = "addressLine1")
@@ -40,6 +41,7 @@ public interface OrderMapper {
     @Mapping(source = "defaultAddress", target = "defaultAddress")
     AddressDto toOmsCart(Address address);
 
+    @Mapping(source = "paymentInstrumentId", target = "paymentInstrumentId")
     @Mapping(source = "paymentMethodType", target = "paymentMethodType")
     @Mapping(source = "provider", target = "provider")
     @Mapping(source = "maskedCardNumber", target = "maskedCardNumber")

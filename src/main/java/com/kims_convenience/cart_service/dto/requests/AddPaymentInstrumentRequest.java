@@ -7,6 +7,12 @@ import lombok.Getter;
 public class AddPaymentInstrumentRequest implements WebRequest {
 
     @NotBlank
+    private String orderId;
+
+    @NotBlank
+    private String paymentInstrumentId;
+
+    @NotBlank
     private String paymentMethodType;
 
     @NotBlank
@@ -33,6 +39,8 @@ public class AddPaymentInstrumentRequest implements WebRequest {
     @Override
     public String toLogString() {
         return String.format("AddPaymentRequest[" +
+                        "orderId=%s, " +
+                        "paymentInstrumentId=%s, " +
                         "paymentMethodType=%s, " +
                         "provider=%s, " +
                         "maskedCardNumber=%s, " +
@@ -41,6 +49,8 @@ public class AddPaymentInstrumentRequest implements WebRequest {
                         "expiryYear=%s, " +
                         "lastUsedOn=%s, " +
                         "instrumentToken=%s, ]",
+                orderId,
+                paymentInstrumentId,
                 paymentMethodType,
                 provider,
                 maskedCardNumber,

@@ -1,8 +1,6 @@
 package com.kims_convenience.cart_service.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +8,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Address {
+
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "address_id")
+    private String addressId;
 
     @Column(name = "name")
     private String name;
@@ -43,14 +46,8 @@ public class Address {
     @Column(name = "default_address")
     private boolean defaultAddress;
 
-    public String getFullAddress() {
-        return String.format("%s, %s, %s, %s - %s, %s",
-                addressLine1,
-                addressLine2 != null ? addressLine2 : "",
-                city,
-                state,
-                postalCode,
-                country);
-    }
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 }
 
