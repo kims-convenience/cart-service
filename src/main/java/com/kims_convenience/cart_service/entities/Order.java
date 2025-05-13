@@ -24,16 +24,40 @@ public class Order {
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    //    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
-//    @JoinColumn(name = "payment_instrument_id", nullable = true)
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private PaymentInstrument paymentInstrument;
 
-    //@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, optional = true)
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    // @JoinColumn(name = "address_id", nullable = true)
     private Address address;
 
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
+
+    public void setPaymentInstrument(PaymentInstrument paymentInstrument) {
+        if (this.paymentInstrument != null) {
+            // Unlink from the order
+            this.paymentInstrument.setOrder(null);
+        }
+
+        this.paymentInstrument = paymentInstrument;
+
+        if (paymentInstrument != null) {
+            // Link to the order
+            paymentInstrument.setOrder(this);
+        }
+    }
+
+    public void setAddress(Address address) {
+        if (this.address != null) {
+            // Unlink from the order
+            this.address.setOrder(null);
+        }
+
+        this.address = address;
+
+        if (address != null) {
+            // Link to the order
+            address.setOrder(this);
+        }
+    }
 }

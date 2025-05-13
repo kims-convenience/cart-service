@@ -36,13 +36,13 @@ public class CheckoutController {
     public ResponseEntity<OrderDto> addPayment(@PathVariable String orderId,
                                                @RequestBody AddPaymentInstrumentRequest request) {
         logger.info("[addPayment] OrderId={}, Request={}", orderId, request.toLogString());
-        return ResponseEntity.ok(checkoutService.addPaymentInstrument(orderId, request));
+        return ResponseEntity.ok(checkoutService.updatePaymentInstrument(orderId, request));
     }
 
     @PostMapping("/{orderId}/add-address")
     public ResponseEntity<OrderDto> addAddress(@PathVariable String orderId,
                                                @RequestBody AddAddressRequest request) {
         logger.info("[addAddress] OrderId={}, Request={}", orderId, request.toLogString());
-        return ResponseEntity.ok(checkoutService.addAddress(orderId, request));
+        return ResponseEntity.ok(checkoutService.updateAddress(orderId, request));
     }
 }

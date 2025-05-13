@@ -45,7 +45,7 @@ $ kubectl exec -it <container_id_or_name> -- /bin/bash
 
 [Enter password : password
 
-[mysql> use cart-db;
+[mysql> use cart_db;
 
 [mysql> select * from orders;
 
@@ -76,7 +76,7 @@ $ kubectl exec -it <pod_name> -- /bin/bash
 
 ### Deploy Loki-Grafana
 
-$ docker compose -f docker-compose-logging-observability.yml up -d
+$ docker compose -f docker-compose-observability.yml up -d
 
 ### Deploying Cart
 

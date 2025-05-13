@@ -33,16 +33,30 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse("ORDER_NOT_FOUND", ex.getMessage()));
     }
 
+    @ExceptionHandler(DuplicateOrderCreationException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateOrderCreation(DuplicateOrderCreationException ex) {
+        logger.warn("[handleDuplicateOrderCreation] Exception : {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("DUPLICATE_ORDER_CREATION", ex.getMessage()));
+    }
+
+    @ExceptionHandler(DuplicateOrderPlacementException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateOrderPlacement(DuplicateOrderPlacementException ex) {
+        logger.warn("[handleDuplicateOrderPlacement] Exception : {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("DUPLICATE_ORDER_PLACEMENT", ex.getMessage()));
+    }
+
     @ExceptionHandler(AddressNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleOrderAddressMissing(AddressNotFoundException ex) {
-        logger.warn("[handleOrderAddressMissing] Exception : {}", ex.getMessage());
+    public ResponseEntity<ErrorResponse> handleAddressNotFound(AddressNotFoundException ex) {
+        logger.warn("[handleAddressNotFound] Exception : {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("ADDRESS_MISSING", ex.getMessage()));
     }
 
     @ExceptionHandler(PaymentInstrumentNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleOrderPaymentInstrumentMissing(PaymentInstrumentNotFoundException ex) {
-        logger.warn("[handleOrderPaymentInstrumentMissing] Exception : {}", ex.getMessage());
+    public ResponseEntity<ErrorResponse> handlePaymentInstrumentNotFound(PaymentInstrumentNotFoundException ex) {
+        logger.warn("[handlePaymentInstrumentNotFound] Exception : {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("PAYMENT_INSTRUMENT_MISSING", ex.getMessage()));
     }

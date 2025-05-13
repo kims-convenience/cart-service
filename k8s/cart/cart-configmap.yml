@@ -3,4 +3,5 @@ kind: ConfigMap
 metadata:
   name: cart-configmap
 data:
-  loki-push-url: http://host.docker.internal
+  docker-internal-url: http://host.docker.internal
+  kafka-service: kafka-svc

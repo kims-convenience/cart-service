@@ -6,10 +6,12 @@ import com.kims_convenience.cart_service.dto.requests.AddPaymentInstrumentReques
 import com.kims_convenience.cart_service.dto.requests.CreateOrderRequest;
 import com.kims_convenience.cart_service.entities.*;
 import com.kims_convenience.cart_service.exceptions.CartNotFoundException;
+import com.kims_convenience.cart_service.exceptions.DuplicateOrderCreationException;
 import com.kims_convenience.cart_service.exceptions.OrderNotFoundException;
 import com.kims_convenience.cart_service.repositories.CartRepository;
 import com.kims_convenience.cart_service.repositories.OrderRepository;
 import com.kims_convenience.cart_service.utility.OrderUtility;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,8 @@ public class CheckoutService {
 
     public OrderDto getOrderById(String id) {
         logger.info("[getOrderById] OrderId={}", id);
-        return OrderUtility.toDto(orderRepository.findById(id).orElse(new Order()));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        return OrderUtility.toDto(order);
     }
 
     public OrderDto createOrder(CreateOrderRequest request) {
@@ -38,6 +41,9 @@ public class CheckoutService {
 
         Cart cart = cartRepository.findById(request.getCartId()).orElseThrow(() -> new CartNotFoundException(request.getCartId()));
 
+        if (cart.getOrder() != null) {
+            throw new DuplicateOrderCreationException(cart.getId());
+        }
         Order order = new Order();
         order.setId(UUID.randomUUID().toString());
         order.setCustomerId(cart.getCustomerId());
@@ -47,27 +53,34 @@ public class CheckoutService {
         return OrderUtility.toDto(orderRepository.save(order));
     }
 
-    public OrderDto addPaymentInstrument(String orderId, AddPaymentInstrumentRequest request) {
-        logger.info("[addPaymentInstrument] OrderId={}, Request={}", orderId, request.toLogString());
+    @Transactional
+    // Adds & Updates PaymentInstrument to order in a single transaction :
+    // 1. Unlink and delete old paymentInstrument (orphanRemoval = true)
+    // 2. Insert the new one
+    public OrderDto updatePaymentInstrument(String orderId, AddPaymentInstrumentRequest request) {
+        logger.info("[updatePaymentInstrument] OrderId={}, Request={}", orderId, request.toLogString());
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
-        order.setPaymentInstrument(getPaymentInstrumentSnapshot(request, order));
+        order.setPaymentInstrument(getPaymentInstrumentSnapshot(request));
         order.setUpdatedAt(ZonedDateTime.now());
         return OrderUtility.toDto(orderRepository.save(order));
     }
 
-    public OrderDto addAddress(String orderId, AddAddressRequest request) {
-        logger.info("[addAddress] OrderId={}, Request={}", orderId, request.toLogString());
+    @Transactional
+    // Adds & Updates Address to order in a single transaction :
+    // 1. Unlink and delete old address (orphanRemoval = true)
+    // 2. Insert the new one
+    public OrderDto updateAddress(String orderId, AddAddressRequest request) {
+        logger.info("[updateAddress] OrderId={}, Request={}", orderId, request.toLogString());
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
-        order.setAddress(getAddress(request, order));
+        order.setAddress(getAddress(request));
         order.setUpdatedAt(ZonedDateTime.now());
         return OrderUtility.toDto(orderRepository.save(order));
     }
 
-    private PaymentInstrument getPaymentInstrumentSnapshot(AddPaymentInstrumentRequest request, Order order) {
+    private PaymentInstrument getPaymentInstrumentSnapshot(AddPaymentInstrumentRequest request) {
         PaymentInstrument paymentInstrument = new PaymentInstrument();
-        paymentInstrument.setOrder(order);
         paymentInstrument.setPaymentInstrumentId(request.getPaymentInstrumentId());
         paymentInstrument.setPaymentMethodType(request.getPaymentMethodType());
         paymentInstrument.setProvider(request.getProvider());
@@ -80,9 +93,8 @@ public class CheckoutService {
         return paymentInstrument;
     }
 
-    private Address getAddress(AddAddressRequest request, Order order) {
+    private Address getAddress(AddAddressRequest request) {
         Address address = new Address();
-        address.setOrder(order);
         address.setAddressId(request.getAddressId());
         address.setName(request.getName());
         address.setPhoneNumber(request.getPhoneNumber());

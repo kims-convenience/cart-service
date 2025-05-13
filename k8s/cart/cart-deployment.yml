@@ -56,7 +56,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: cart-configmap
-                  key: loki-push-url
+                  key: docker-internal-url
+            - name: KAFKA_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name: cart-configmap
+                  key: kafka-service
   replicas: 1
   selector:
     matchLabels:

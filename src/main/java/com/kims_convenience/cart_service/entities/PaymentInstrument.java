@@ -41,6 +41,6 @@ public class PaymentInstrument {
     private String instrumentToken;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id", unique = true, nullable = false)
     private Order order;
 }

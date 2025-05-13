@@ -4,6 +4,7 @@ import com.kims_convenience.cart_service.dto.order_event.OrderSubmittedEvent;
 import com.kims_convenience.cart_service.entities.Order;
 import com.kims_convenience.cart_service.entities.OrderStatus;
 import com.kims_convenience.cart_service.exceptions.AddressNotFoundException;
+import com.kims_convenience.cart_service.exceptions.DuplicateOrderPlacementException;
 import com.kims_convenience.cart_service.exceptions.OrderNotFoundException;
 import com.kims_convenience.cart_service.exceptions.PaymentInstrumentNotFoundException;
 import com.kims_convenience.cart_service.mappers.OrderMapper;
@@ -34,6 +35,9 @@ public class OrderEventPublisher {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
 
+        if (order.getOrderStatus() == OrderStatus.SUBMITTED) {
+            throw new DuplicateOrderPlacementException(orderId);
+        }
         if (order.getAddress() == null) {
             throw new AddressNotFoundException(orderId);
         }

@@ -47,7 +47,7 @@ public class Address {
     private boolean defaultAddress;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id", unique = true, nullable = false)
     private Order order;
 }
 
