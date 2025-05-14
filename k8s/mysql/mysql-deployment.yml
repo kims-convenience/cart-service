@@ -1,94 +1,94 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mysql-deployment
-  labels:
-    app: kims-convenience
-    tier: database
-    type: mysql
-spec:
-  selector:
-    matchLabels:
-      app: kims-convenience
-      tier: database
-      type: mysql
-  strategy:
-    type: Recreate
-  template:
-    metadata:
-      name: mysql-pod
-      labels:
-        app: kims-convenience
-        tier: database
-        type: mysql
-    spec:
-      containers:
-        - image: mysql:5.6
-          name: mysql
-          env:
-            - name: MYSQL_DATABASE
-              valueFrom:
-                configMapKeyRef:
-                  name: mysql-config-map
-                  key: mysql-database-name
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-pass
-                  key: mysql-root-password
-            - name: MYSQL_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: mysql-config-map
-                  key: mysql-user-username
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-pass
-                  key: mysql-user-password
-          livenessProbe:
-            tcpSocket:
-              port: 3306
-          ports:
-            - containerPort: 3306
-              name: mysql
-          volumeMounts:
-            - name: mysql-persistent-storage
-              mountPath: /var/lib/mysql
-      volumes:
-        - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: mysql-pvc
-
----
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-cart  # mysql -h mysql-cart -u root -p
+  name: kc-cart-mysql-service # mysql -h kc-cart-mysql-service -u root -p
   labels:
     app: kims-convenience
     tier: database
-    type: mysql
+    type: kc-cart-mysql
 spec:
   ports:
     - port: 3306
   selector:
     app: kims-convenience
     tier: database
-    type: mysql
+    type: kc-cart-mysql
   clusterIP: None
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kc-cart-mysql-deployment
+  labels:
+    app: kims-convenience
+    tier: database
+    type: kc-cart-mysql
+spec:
+  selector:
+    matchLabels:
+      app: kims-convenience
+      tier: database
+      type: kc-cart-mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: kc-cart-mysql-pod
+      labels:
+        app: kims-convenience
+        tier: database
+        type: kc-cart-mysql
+    spec:
+      containers:
+        - image: mysql:5.6
+          name: kc-cart-mysql
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: kc-cart-mysql-configmap
+                  key: mysql-database-name
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kc-cart-mysql-secret
+                  key: mysql-root-password
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: kc-cart-mysql-configmap
+                  key: mysql-user-username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kc-cart-mysql-secret
+                  key: mysql-user-password
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+          ports:
+            - containerPort: 3306
+              name: kc-cart-mysql
+          volumeMounts:
+            - name: kc-cart-mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: kc-cart-mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: kc-cart-mysql-pvc
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pvc
+  name: kc-cart-mysql-pvc
   labels:
     app: kims-convenience
     tier: database
-    type: mysql
+    type: kc-cart-mysql
 spec:
   accessModes:
     - ReadWriteOnce

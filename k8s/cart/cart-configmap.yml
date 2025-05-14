@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: cart-configmap
+  name: kc-cart-configmap
 data:
   docker-internal-url: http://host.docker.internal
-  kafka-service: kafka-svc
+  kafka-service: kc-kafka-service

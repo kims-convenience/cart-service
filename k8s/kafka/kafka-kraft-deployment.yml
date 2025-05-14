@@ -1,10 +1,15 @@
-# Headless service for intra-cluster DNS resolution (eg. kafka-0.kafka-svc.default.svc.cluster.local)
+# Kafka instance is shared by all KC micro-services.
+
+# Headless Service
+# - For intra-cluster DNS resolution (eg. kafka-0.kc-kafka-service.default.svc.cluster.local)
 apiVersion: v1
 kind: Service
 metadata:
-  name: kafka-svc
+  name: kc-kafka-service
   labels:
-    app: kafka-app
+    app: kims-convenience
+    tier: messaging
+    type: kc-kafka
 spec:
   clusterIP: None
   ports:
@@ -13,45 +18,38 @@ spec:
       protocol: TCP
       targetPort: 9092
   selector:
-    app: kafka-app
----
-
-# NodePort service for external access (host.docker.internal:30092)
-apiVersion: v1
-kind: Service
-metadata:
-  name: kafka-nodeport
-  labels:
-    app: kafka-app
-spec:
-  type: NodePort
-  ports:
-    - port: 9092
-      targetPort: 9092
-      nodePort: 30092
-  selector:
-    app: kafka-app
+    app: kims-convenience
+    tier: messaging
+    type: kc-kafka
 
 ---
+
+# Stateful Set
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: kafka
+  name: kafka # for a valid broker.id keep name a single word
   labels:
-    app: kafka-app
+    app: kims-convenience
+    tier: messaging
+    type: kc-kafka
 spec:
-  serviceName: kafka-svc
+  serviceName: kc-kafka-service
   replicas: 1
   selector:
     matchLabels:
-      app: kafka-app
+      app: kims-convenience
+      tier: messaging
+      type: kc-kafka
   template:
     metadata:
       labels:
-        app: kafka-app
+        app: kims-convenience
+        tier: messaging
+        type: kc-kafka
     spec:
       containers:
-        - name: kafka-container
+        - name: kc-kafka
           image: doughgle/kafka-kraft
           ports:
             - containerPort: 9092
@@ -60,7 +58,7 @@ spec:
             - name: REPLICAS
               value: '1'
             - name: SERVICE
-              value: kafka-svc
+              value: kc-kafka-service
             - name: NAMESPACE
               value: default
             - name: SHARE_DIR
@@ -84,11 +82,11 @@ spec:
             - name: KAFKA_LOG_DIRS
               value: "/mnt/kafka"
           volumeMounts:
-            - name: kafka-storage
+            - name: kc-kafka-storage
               mountPath: /mnt/kafka
   volumeClaimTemplates:
     - metadata:
-        name: kafka-storage
+        name: kc-kafka-storage
       spec:
         accessModes:
           - "ReadWriteOnce"

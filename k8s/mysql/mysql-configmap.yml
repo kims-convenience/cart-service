@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mysql-config-map
+  name: kc-cart-mysql-configmap
 data:
-  mysql-server: mysql-cart
+  mysql-server: kc-cart-mysql-service
   mysql-database-name: cart_db
   mysql-user-username: dummy
-  loki-push-url: http://host.docker.internal
+  loki-push-url: http ://host.docker.internal

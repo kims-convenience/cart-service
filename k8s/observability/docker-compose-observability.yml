@@ -2,37 +2,18 @@ version: '3.8'
 services:
   loki:
     image: grafana/loki:latest
-    container_name: loki
+    container_name: kc-loki
     #command: ['-config.file=/etc/loki/local-config.yaml']
     ports:
       - "3100:3100"
-
-  #      volumes:
-  #        - ./loki-config.yaml:/etc/loki/local-config.yaml  # Logback config file
-  #        - ../logs/:/var/log/app_logs  # Logback logs (adjust path if needed)
-
-  #    promtail:
-  #      image: grafana/promtail:latest
-  #      container_name: promtail
-  #      volumes:
-  #        - ./config.yml:/etc/promtail/config.yml
-  #        - /logs:/var/log/app_logs
-  #        # ../logs --> relative path to app logs wrt this docker file
-  #        # /logs --> absolute path to logs on host system (Mac). This path needs to be shared by the host to be mounted by docker container.
-  #        # For host to share the path check Docker Desktop Settings > Resources > File Sharing > Add Absolute Path
-  #        # /var/log/app_logs --> Path where /logs/application.json will be mounted inside the container to make it accessible to Promtail
-  #      depends_on:
-  #        - loki
-
   grafana:
     image: grafana/grafana:latest
-    container_name: grafana
+    container_name: kc-grafana
     ports:
       - "3000:3000"
     depends_on:
-      - loki
+      - kc-loki
     volumes:
-      #- grafana-storage:/var/lib/grafana
       - grafana-data:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin  # Set Grafana admin password
