@@ -1,4 +1,4 @@
-# Kafka instance is shared by all KC micro-services.
+# Kafka instance is shared by all KC microservices.
 
 # Headless Service
 # - For intra-cluster DNS resolution (eg. kafka-0.kc-kafka-service.default.svc.cluster.local)

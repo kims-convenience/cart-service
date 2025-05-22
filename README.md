@@ -86,11 +86,7 @@ $ kubectl exec -it <container_id_or_name> -- /bin/bash
 
 [mysql> use cart_db;
 
-[mysql> select * from orders;
-
-#### -- Other K8 resources for MySQL
-
-$ kubectl get all
+[mysql> show tables;
 
 ### Deploying Cart
 
@@ -108,10 +104,18 @@ $ kubectl apply -f cart-configmap.yml
 
 $ kubectl apply -f cart-deployment.yml
 
-$ kubectl scale --replicas=0 deployment cart-deployment
+### Accessing pod & other K8 resources
 
-#### -- Accessing pod
+$ kubectl get pods
+
+$ kubectl logs <pod_name>
 
 $ kubectl exec -it <pod_name> -- /bin/sh
 
-$ kubectl logs <pod_name>
+$ kubectl scale --replicas=0 deployment cart-deployment
+
+$ kubectl get all
+
+$ kubectl describe <resource_type> <resource_name>
+
+$ kubectl delete <resource_type> <resource_name>
